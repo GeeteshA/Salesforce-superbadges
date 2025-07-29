@@ -1,0 +1,15 @@
+geeteshaheriya99@curious-raccoon-5bpvzb.com
+Geetesh506
+
+sf project deploy start -d force-app/main/default/classes
+sf project deploy start -d force-app/main/default/triggers
+sf project deploy start -d force-app/main/default/lwc
+
+
+npm run test:unit
+
+# Run Tests Continuously During Development
+npm run test:unit:watch
+
+# Run Tests and Display Code Coverage
+npm run test:unit:coverage

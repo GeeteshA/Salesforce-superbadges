@@ -1,0 +1,15 @@
+<template>
+    <lightning-card title="Numerator" icon-name="custom:custom19">
+        <p class="slds-text-align_center slds-var-m-vertical_medium">
+            Prior Count: <lightning-formatted-number value={priorCount}></lightning-formatted-number>
+        </p>
+        <p class="slds-text-align_center slds-var-m-vertical_medium">
+            Count: <lightning-formatted-number value={counter}></lightning-formatted-number>
+        </p>
+        <div class="slds-var-m-around_medium slds-align_absolute-center">
+            <lightning-button label="Add" onclick={handleAdd}></lightning-button>
+            <lightning-button class="slds-var-m-left_x-small" label="x2" data-factor="2" onclick={handleMultiply}></lightning-button>
+            <lightning-button class="slds-var-m-left_x-small" label="x3" data-factor="3" onclick={handleMultiply}></lightning-button>
+        </div>
+    </lightning-card>
+</template>
