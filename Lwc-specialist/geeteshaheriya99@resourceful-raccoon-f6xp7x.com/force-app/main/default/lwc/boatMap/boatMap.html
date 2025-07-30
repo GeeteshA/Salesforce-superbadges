@@ -1,0 +1,12 @@
+<template>
+    <lightning-card title="Boat Location" icon-name="action:map">
+        <template if:true={showMap}>
+            <lightning-map map-markers={mapMarkers}></lightning-map>
+        </template>
+        <template if:false={showMap}>
+            <div class="slds-p-around_medium">
+                Select a boat to view its location.
+            </div>
+        </template>
+    </lightning-card>
+</template>

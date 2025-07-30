@@ -1,0 +1,36 @@
+<template>
+    <template if:true={isLoading}>
+        <lightning-spinner alternative-text="Loading"></lightning-spinner>
+    </template>
+    <template if:false={isLoading}>
+        <template if:true={reviewsToShow}>
+            <div class="slds-scrollable_y" style="height: 300px;">
+                <template for:each={boatReviews} for:item="review">
+                    <div key={review.Id} class="slds-p-around_small">
+                        <div class="slds-media">
+                            <div class="slds-media__figure">
+                                <lightning-avatar src={review.CreatedBy.SmallPhotoUrl}></lightning-avatar>
+                            </div>
+                            <div class="slds-media__body">
+                                <p>
+                                    <a href="javascript:void(0);" onclick={navigateToRecord} data-record-id={review.CreatedBy.Id}>
+                                        {review.CreatedBy.Name}
+                                    </a>
+                                </p>
+                                <p class="slds-text-body_small">
+                                    <lightning-formatted-date-time value={review.CreatedDate}></lightning-formatted-date-time>
+                                </p>
+                                <p class="slds-text-heading_small">{review.Name}</p>
+                                <p>{review.Comment__c}</p>
+                                <c-five-star-rating value={review.Rating__c} read-only></c-five-star-rating>
+                            </div>
+                        </div>
+                    </div>
+                </template>
+            </div>
+        </template>
+        <template if:false={reviewsToShow}>
+            <div class="slds-align_absolute-center">No reviews available</div>
+        </template>
+    </template>
+</template>

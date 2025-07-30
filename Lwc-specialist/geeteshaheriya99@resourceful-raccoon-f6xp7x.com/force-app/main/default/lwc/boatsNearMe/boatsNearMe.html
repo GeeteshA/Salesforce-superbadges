@@ -1,0 +1,11 @@
+<template>
+    <lightning-card title="Boats Near Me" class="slds-is-relative">
+        <template if:true={isLoading}>
+            <lightning-spinner alternative-text="Loading"></lightning-spinner>
+        </template>
+        <template if:false={isLoading}>
+            <lightning-map map-markers={mapMarkers}></lightning-map>
+        </template>
+        <div slot="footer">Top 10 boats within 100 miles</div>
+    </lightning-card>
+</template>
