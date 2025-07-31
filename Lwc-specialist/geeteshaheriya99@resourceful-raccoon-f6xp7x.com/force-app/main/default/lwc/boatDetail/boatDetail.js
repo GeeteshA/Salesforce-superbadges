@@ -1,6 +1,6 @@
 import { LightningElement, wire } from 'lwc';
 import { subscribe, MessageContext } from 'lightning/messageService';
-import BOATMC from '@salesforce/messageChannel/BoatMessageChannel__c';
+import BOATMC from '@salesforce/messageChannel/BoatChannel__c';
 
 export default class BoatDetail extends LightningElement {
     boatId;

@@ -1,54 +1,72 @@
-import { LightningElement, api, track } from 'lwc';
-import { NavigationMixin } from 'lightning/navigation';
+import { api, LightningElement } from 'lwc';
 import getAllReviews from '@salesforce/apex/BoatDataService.getAllReviews';
+import { NavigationMixin } from 'lightning/navigation';
 
+// imports
 export default class BoatReviews extends NavigationMixin(LightningElement) {
+    // Private
     boatId;
     error;
-    @track boatReviews;
+    boatReviews;
     isLoading;
-
+    
+    // Getter and Setter to allow for logic to run on recordId change
+    get recordId() {
+        return this.boatId;
+    }
     @api
-    get recordId() { return this.boatId; }
     set recordId(value) {
-        this.boatId = value;
+        //sets boatId attribute
+        this.setAttribute('boatId', value);        
+        //sets boatId assignment
+        this.boatId = value;      
+        //get reviews associated with boatId
         this.getReviews();
     }
-
+    
+    // Getter to determine if there are reviews to display
     get reviewsToShow() {
-        return this.boatReviews && this.boatReviews.length > 0;
+        return this.boatReviews !== undefined && this.boatReviews != null && this.boatReviews.length > 0;
     }
-
+    
+    // Public method to force a refresh of the reviews invoking getReviews
     @api
     refresh() {
         this.getReviews();
     }
-
+    
+    // Imperative Apex call to get reviews for given boat
+    // returns immediately if boatId is empty or null
+    // sets isLoading to true during the process and false when it’s completed
+    // Gets all the boatReviews from the result, checking for errors.
     getReviews() {
-        if (!this.boatId) return;
-        this.isLoading = true;
-        getAllReviews({ boatId: this.boatId })
-            .then(result => {
+        if (this.boatId) {
+            this.isLoading = true;
+            getAllReviews({boatId: this.boatId}).then((result) => {
                 this.boatReviews = result;
-            })
-            .catch(error => {
+                this.error = undefined;
+            }).catch((error) => {
                 this.error = error;
-            })
-            .finally(() => {
+            }).finally(() => {
                 this.isLoading = false;
             });
+        } else {
+            return;
+        }
     }
-
-    navigateToRecord(event) {
+    
+    // Helper method to use NavigationMixin to navigate to a given record on click
+    navigateToRecord(event) { 
         event.preventDefault();
-        const userId = event.target.dataset.recordId;
+        event.stopPropagation();
+        let recordId = event.target.dataset.recordId;
         this[NavigationMixin.Navigate]({
             type: 'standard__recordPage',
             attributes: {
-                recordId: userId,
-                objectApiName: 'User',
-                actionName: 'view'
-            }
+                recordId: recordId,
+                objectApiName: "User",
+                actionName: "view"
+            },
         });
     }
-}
+}  
